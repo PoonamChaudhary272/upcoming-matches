@@ -1,0 +1,14 @@
+{
+  "name": "soccer-matches",
+  "version": "1.0.0",
+  "description": "A web application to display upcoming soccer matches",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.9",
+    "cors": "^2.8.5"
+  }
+} 

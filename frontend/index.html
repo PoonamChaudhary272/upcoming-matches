@@ -1,0 +1,167 @@
+<!--
+  Student: Poonam Chaudhary
+  Date: 2024-05-10
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Soccer Matches</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 2px 8px rgba(30,60,114,0.08);
+            padding: 24px 0 16px 0;
+            margin-bottom: 32px;
+        }
+        .header img {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+        }
+        .header-title {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1e3c72;
+            letter-spacing: 1px;
+        }
+       
+        #matches-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 16px 32px 16px;
+        }
+        .match-card {
+            background: rgba(255,255,255,0.97);
+            border-radius: 16px;
+            padding: 24px 20px 18px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(30,60,114,0.10);
+            transition: transform 0.15s, box-shadow 0.15s;
+            border-left: 6px solid #2a5298;
+        }
+        .match-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(30,60,114,0.18);
+        }
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .team {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 1.15em;
+            color: #1e3c72;
+            flex: 1;
+            text-align: center;
+        }
+        .vs {
+            color: #2a5298;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 0 10px;
+        }
+        .date-time {
+            color: #555;
+            text-align: center;
+            font-size: 1em;
+            margin-top: 6px;
+        }
+        .loading, .error {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 40px;
+        }
+        .error {
+            color: #c0392b;
+        }
+        @media (max-width: 600px) {
+            .header-title {
+                font-size: 1.3rem;
+            }
+            .header img {
+                width: 32px;
+                height: 32px;
+            }
+            .match-card {
+                padding: 16px 8px 12px 8px;
+                border-radius: 10px;
+            }
+            #matches-container {
+                padding: 0 4px 24px 4px;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://cdn-icons-png.flaticon.com/512/861/861512.png" alt="Soccer Ball Logo">
+        <span class="header-title">Upcoming Soccer Matches</span>
+    </div>
+   
+    <div id="matches-container">
+        <div class="loading">Loading matches...</div>
+    </div>
+
+    <script>
+        async function fetchMatches() {
+            try {
+                const response = await fetch('/api/matches');
+                const data = await response.json();
+                
+                const matchesContainer = document.getElementById('matches-container');
+                matchesContainer.innerHTML = '';
+
+                if (data.matches && data.matches.length > 0) {
+                    data.matches.forEach(match => {
+                        const matchCard = document.createElement('div');
+                        matchCard.className = 'match-card';
+                        
+                        const matchDate = new Date(match.utcDate);
+                        const formattedDate = matchDate.toLocaleString();
+
+                        matchCard.innerHTML = `
+                            <div class="teams">
+                                <div class="team">${match.homeTeam.name}</div>
+                                <div class="vs">VS</div>
+                                <div class="team">${match.awayTeam.name}</div>
+                            </div>
+                            <div class="date-time">${formattedDate}</div>
+                        `;
+                        
+                        matchesContainer.appendChild(matchCard);
+                    });
+                } else {
+                    matchesContainer.innerHTML = '<div class="error">No upcoming matches found</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('matches-container').innerHTML = 
+                    '<div class="error">Failed to load matches. Please try again later.</div>';
+            }
+        }
+
+        // Fetch matches when the page loads
+        fetchMatches();
+
+        
+    </script>
+</body>
+</html> 
