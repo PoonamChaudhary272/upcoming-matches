@@ -39,6 +39,23 @@
             letter-spacing: 1px;
         }
        
+         #refresh-btn {
+            display: block;
+            margin: 0 auto 24px auto;
+            padding: 10px 24px;
+            background: #2a5298;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #refresh-btn:hover {
+            background: #1e3c72;
+        }
         #matches-container {
             max-width: 700px;
             margin: 0 auto;
@@ -106,7 +123,10 @@
             #matches-container {
                 padding: 0 4px 24px 4px;
             }
-            
+             #refresh-btn {
+                font-size: 1em;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
@@ -115,7 +135,7 @@
         <img src="https://cdn-icons-png.flaticon.com/512/861/861512.png" alt="Soccer Ball Logo">
         <span class="header-title">Upcoming Soccer Matches</span>
     </div>
-   
+   <button id="refresh-btn">Refresh Matches</button>
     <div id="matches-container">
         <div class="loading">Loading matches...</div>
     </div>
@@ -158,9 +178,13 @@
             }
         }
 
-        // Fetch matches when the page loads
+       
         fetchMatches();
 
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            document.getElementById('matches-container').innerHTML = '<div class="loading">Refreshing...</div>';
+            fetchMatches();
+        });
         
     </script>
 </body>
