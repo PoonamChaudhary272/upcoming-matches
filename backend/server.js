@@ -2,6 +2,7 @@ const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 const port = 3001;
@@ -15,9 +16,9 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/api/matches', async (req, res) => {
     try {
-        const response = await fetch('https://api.football-data.org/v4/matches', {
+        const response = await fetch('https://api.football-data.org/v4/matches?dateFrom=2025-05-30&dateTo=2025-06-05', {
             headers: {
-                'X-Auth-Token': process.env.FOOTBALL_API_KEY || '4449694318d74d6f8f42a9a5fc481be8'
+                'X-Auth-Token': process.env.FOOTBALL_API_KEY 
             }
         });
         const data = await response.json();
