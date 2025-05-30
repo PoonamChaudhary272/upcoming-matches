@@ -16,7 +16,13 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.get('/api/matches', async (req, res) => {
     try {
-        const response = await fetch('https://api.football-data.org/v4/matches?dateFrom=2025-05-30&dateTo=2025-06-05', {
+        
+        const today = new Date();
+        const dateFrom = today.toISOString().slice(0, 10);
+        const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+        const dateTo = nextWeek.toISOString().slice(0, 10);
+
+        const response = await fetch(`https://api.football-data.org/v4/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`, {
             headers: {
                 'X-Auth-Token': process.env.FOOTBALL_API_KEY 
             }
