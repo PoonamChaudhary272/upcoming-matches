@@ -1,6 +1,8 @@
 # Upcoming Soccer Matches App
 
 A web app to display real upcoming soccer matches.
+![image](https://github.com/user-attachments/assets/3d03e4f5-a762-4d9d-b862-a70c4935ca64)
+
 
 ## About This Project
 This project was created for a web development assignment. The goal was to fetch and display a list of upcoming soccer matches using a public API, and to practice both backend and frontend skills. I learned a lot about working with APIs, Node.js, and organizing code for clarity!
